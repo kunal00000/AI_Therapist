@@ -1,22 +1,13 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useChat } from "ai/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Mic, MicOff, Send, VolumeX, Volume2, Loader2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import { MarkdownRenderer } from "./markdown-renderer";
+import { MarkdownRenderer } from "@/components/markdown-renderer";
 
 export default function TherapistChat() {
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
@@ -145,14 +136,12 @@ export default function TherapistChat() {
   }, [isSpeaking, messages, speak]);
 
   return (
-    <Card className="w-full bg-white shadow-sm border-0">
-      <CardHeader className="border-b border-gray-100">
-        <CardTitle className="text-xl font-medium text-gray-700">
-          Conversation
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="p-0">
-        <ScrollArea className="h-[400px] w-full" ref={scrollAreaRef}>
+    <div className="w-full h-screen flex flex-col bg-white md:p-4">
+      <div className="flex-grow flex flex-col overflow-hidden">
+        <div className="border-b border-gray-100 p-4 md:rounded-t-lg">
+          <h2 className="text-xl font-medium text-gray-700">Conversation</h2>
+        </div>
+        <ScrollArea className="flex-grow" ref={scrollAreaRef}>
           <div className="p-4 space-y-4">
             {messages.map((m, index) => (
               <div
@@ -179,62 +168,64 @@ export default function TherapistChat() {
             )}
           </div>
         </ScrollArea>
-      </CardContent>
-      <CardFooter className="border-t border-gray-100 p-4">
-        <form onSubmit={handleSubmit} className="flex w-full space-x-2">
-          <Input
-            value={input}
-            onChange={handleInputChange}
-            placeholder="Type your message here..."
-            className="flex-grow bg-gray-50 border-gray-200 focus:border-blue-300 focus:ring-blue-200"
-          />
-          <Button
-            type="submit"
-            size="icon"
-            className="bg-blue-600 hover:bg-blue-700 text-white"
+        <div className="border-t border-gray-100 p-4">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2"
           >
-            <Send className="h-4 w-4" />
-            <span className="sr-only">Send message</span>
-          </Button>
-          <Button
-            type="button"
-            size="icon"
-            variant={isListening ? "destructive" : "secondary"}
-            onClick={toggleListening}
-            className={
-              isListening
-                ? "bg-red-500 hover:bg-red-600"
-                : "bg-gray-200 hover:bg-gray-300"
-            }
-            disabled={!isRecognitionSupported}
-          >
-            {isListening ? (
-              <MicOff className="h-4 w-4" />
-            ) : (
-              <Mic className="h-4 w-4" />
-            )}
-            <span className="sr-only">
-              {isListening ? "Stop listening" : "Start listening"}
-            </span>
-          </Button>
-          <Button
-            type="button"
-            size="icon"
-            variant="outline"
-            onClick={toggleSpeaking}
-            className="border-gray-200 hover:bg-gray-100"
-          >
-            {isSpeaking ? (
-              <VolumeX className="h-4 w-4" />
-            ) : (
-              <Volume2 className="h-4 w-4" />
-            )}
-            <span className="sr-only">
-              {isSpeaking ? "Stop speaking" : "Start speaking"}
-            </span>
-          </Button>
-        </form>
-      </CardFooter>
-    </Card>
+            <Input
+              value={input}
+              onChange={handleInputChange}
+              placeholder="Type your message here..."
+              className="flex-grow bg-gray-50 border-gray-200 focus:border-blue-300 focus:ring-blue-200"
+            />
+            <div className="flex space-x-2">
+              <Button
+                type="submit"
+                className="bg-blue-600 hover:bg-blue-700 text-white flex-grow md:flex-grow-0"
+              >
+                <Send className="h-4 w-4 mr-2" />
+                <span className="md:sr-only">Send</span>
+              </Button>
+              <Button
+                type="button"
+                variant={isListening ? "destructive" : "secondary"}
+                onClick={toggleListening}
+                className={`flex-grow md:flex-grow-0 ${
+                  isListening
+                    ? "bg-red-500 hover:bg-red-600"
+                    : "bg-gray-200 hover:bg-gray-300"
+                }`}
+                disabled={!isRecognitionSupported}
+              >
+                {isListening ? (
+                  <MicOff className="h-4 w-4 mr-2" />
+                ) : (
+                  <Mic className="h-4 w-4 mr-2" />
+                )}
+                <span className="md:sr-only">
+                  {isListening ? "Stop" : "Start"} listening
+                </span>
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={toggleSpeaking}
+                className="border-gray-200 hover:bg-gray-100 flex-grow md:flex-grow-0"
+              >
+                {isSpeaking ? (
+                  <VolumeX className="h-4 w-4 mr-2" />
+                ) : (
+                  <Volume2 className="h-4 w-4 mr-2" />
+                )}
+                <span className="md:sr-only">
+                  {isSpeaking ? "Stop" : "Start"} speaking
+                </span>
+              </Button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 }
