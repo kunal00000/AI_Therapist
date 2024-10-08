@@ -139,7 +139,7 @@ export default function TherapistChat() {
   }, [isSpeaking, messages, speak]);
 
   return (
-    <div className="w-full h-screen flex flex-col bg-white md:p-4">
+    <div className="w-full h-[calc(100vh-100px)] md:h-[calc(100vh-144px)] flex flex-col bg-white md:p-4">
       <div className="flex-grow flex flex-col overflow-hidden">
         <div className="border-b border-gray-100 p-4 md:rounded-t-lg">
           <h2 className="text-xl font-medium text-gray-700">Conversation</h2>
