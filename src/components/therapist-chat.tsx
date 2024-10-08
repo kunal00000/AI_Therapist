@@ -222,7 +222,7 @@ export default function TherapistChat() {
                   <Volume2 className="h-4 w-4 mr-2" />
                 )}
                 <span className="md:sr-only">
-                  {isSpeaking ? "Stop" : "Start"} speaking
+                  {isSpeaking ? "Stop" : "Start"}
                 </span>
               </Button>
             </div>
