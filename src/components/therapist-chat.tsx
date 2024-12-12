@@ -206,7 +206,7 @@ export default function TherapistChat() {
                   <Mic className="h-4 w-4 mr-2" />
                 )}
                 <span className="md:sr-only">
-                  {isListening ? "Stop" : "Start"} listening
+                  {isListening ? "Stop" : "Start"} speaking
                 </span>
               </Button>
               <Button
@@ -221,7 +221,7 @@ export default function TherapistChat() {
                   <Volume2 className="h-4 w-4 mr-2" />
                 )}
                 <span className="md:sr-only">
-                  {isSpeaking ? "Stop" : "Start"}
+                  {isSpeaking ? "Stop" : "Listen"}
                 </span>
               </Button>
             </div>
