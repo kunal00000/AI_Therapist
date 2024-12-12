@@ -27,15 +27,11 @@ export default function TherapistChat() {
         window.SpeechRecognition || window.webkitSpeechRecognition;
       if (SpeechRecognition) {
         recognitionRef.current = new SpeechRecognition();
-        recognitionRef.current.continuous = true;
-        recognitionRef.current.interimResults = true;
+        recognitionRef.current.continuous = false;
+        recognitionRef.current.interimResults = false;
 
         recognitionRef.current.onresult = (event) => {
-          const transcript = Array.from(event.results)
-            .map((result) => result[0])
-            .map((result) => result.transcript)
-            .join("");
-
+          const transcript = event.results[0][0].transcript;
           handleInputChange({
             target: { value: transcript },
           } as React.ChangeEvent<HTMLInputElement>);
@@ -62,6 +58,9 @@ export default function TherapistChat() {
 
         recognitionRef.current.onend = () => {
           setIsListening(false);
+          if (isListening) {
+            recognitionRef.current?.start();
+          }
         };
       } else {
         setIsRecognitionSupported(false);
