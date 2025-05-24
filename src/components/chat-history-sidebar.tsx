@@ -67,15 +67,30 @@ export function ChatHistorySidebar({
 
     return (
         <>
-            {/* Mobile Toggle Button */}
-            <Button
-                variant="outline"
-                size="sm"
-                className="fixed top-4 left-4 z-50 md:hidden"
-                onClick={() => setIsOpen(!isOpen)}
-            >
-                {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-            </Button>
+            {/* Mobile Header Bar */}
+            <div className="md:hidden bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between relative z-50">
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setIsOpen(!isOpen)}
+                    className="p-2"
+                >
+                    {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                </Button>
+
+                <h1 className="text-sm font-semibold text-gray-800 absolute left-1/2 transform -translate-x-1/2">
+                    AI Mental Health Assistant
+                </h1>
+
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={onNewChat}
+                    className="p-2"
+                >
+                    <Plus className="h-5 w-5" />
+                </Button>
+            </div>
 
             {/* Overlay for mobile */}
             {isOpen && (
@@ -88,14 +103,17 @@ export function ChatHistorySidebar({
             {/* Sidebar */}
             <div
                 className={cn(
-                    "fixed left-0 top-0 h-full w-80 bg-white border-r border-gray-200 z-40 transform transition-transform duration-300 ease-in-out",
-                    "md:relative md:translate-x-0 md:z-auto",
+                    // Mobile: fixed sidebar that slides in
+                    "fixed left-0 h-full w-80 bg-white border-r border-gray-200 z-40 transform transition-transform duration-300 ease-in-out top-[60px]",
+                    // Desktop: relative positioned sidebar that's always visible
+                    "md:relative md:top-0 md:translate-x-0 md:z-auto md:h-full md:w-80",
+                    // Mobile slide state
                     isOpen ? "translate-x-0" : "-translate-x-full"
                 )}
             >
                 <div className="flex flex-col h-full">
-                    {/* Header */}
-                    <div className="p-4 border-b border-gray-200">
+                    {/* Desktop Header - Hidden on mobile since we have the mobile header bar */}
+                    <div className="p-4 border-b border-gray-200 hidden md:block">
                         <div className="flex items-center justify-between mb-4">
                             <h2 className="text-lg font-semibold text-gray-800 flex items-center">
                                 <History className="h-5 w-5 mr-2" />
@@ -110,6 +128,28 @@ export function ChatHistorySidebar({
                                 <Plus className="h-4 w-4 mr-1" />
                                 New
                             </Button>
+                        </div>
+
+                        {sessions.length > 0 && (
+                            <Button
+                                variant="destructive"
+                                size="sm"
+                                onClick={onClearAll}
+                                className="w-full flex items-center"
+                            >
+                                <TrashIcon className="h-4 w-4 mr-2" />
+                                Clear All
+                            </Button>
+                        )}
+                    </div>
+
+                    {/* Mobile Header - Visible only on mobile when sidebar is open */}
+                    <div className="p-4 border-b border-gray-200 md:hidden">
+                        <div className="flex items-center justify-between mb-4">
+                            <h2 className="text-lg font-semibold text-gray-800 flex items-center">
+                                <History className="h-5 w-5 mr-2" />
+                                Chat History
+                            </h2>
                         </div>
 
                         {sessions.length > 0 && (

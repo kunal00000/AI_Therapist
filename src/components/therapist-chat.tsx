@@ -178,7 +178,7 @@ export default function TherapistChat() {
     }, [clearAllSessions, setMessages]);
 
     return (
-        <div className="w-full h-full flex bg-white">
+        <div className="w-full h-full flex flex-col md:flex-row bg-white">
             {/* Chat History Sidebar */}
             <ChatHistorySidebar
                 sessions={sessions}
@@ -193,7 +193,7 @@ export default function TherapistChat() {
             {/* Main Chat Area */}
             <div className="flex-1 flex flex-col overflow-hidden md:p-4">
                 <div className="flex-grow flex flex-col overflow-hidden">
-                    <div className="border-b border-gray-100 p-4 md:rounded-t-lg">
+                    <div className="border-b border-gray-100 p-4 md:rounded-t-lg hidden md:block">
                         <div className="flex items-center justify-between">
                             <h2 className="text-xl font-medium text-gray-700">Conversation</h2>
                             {messages.length > 0 && (
@@ -209,6 +209,22 @@ export default function TherapistChat() {
                             )}
                         </div>
                     </div>
+
+                    {/* Mobile save button - shown in chat area */}
+                    <div className="md:hidden p-4 border-b border-gray-100">
+                        {messages.length > 0 && (
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={handleSaveChat}
+                                className="w-full flex items-center justify-center"
+                            >
+                                <Save className="h-4 w-4 mr-2" />
+                                Save Chat
+                            </Button>
+                        )}
+                    </div>
+
                     <ScrollArea className="flex-grow" ref={scrollAreaRef}>
                         <div className="p-4 space-y-4">
                             {messages.map((m, index) => (
