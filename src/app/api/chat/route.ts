@@ -9,7 +9,7 @@ export async function POST(req: Request) {
   const { messages } = await req.json();
 
   const geminiStream = await genAI
-    .getGenerativeModel({ model: "gemini-1.5-flash" })
+    .getGenerativeModel({ model: "gemini-2.5-flash-preview-04-17" })
     .generateContentStream({
       contents: [
         {
